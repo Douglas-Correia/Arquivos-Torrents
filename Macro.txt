@@ -1,0 +1,343 @@
+macro(200, "COMBO", function()
+ if g_game.isAttacking() then
+ say('Instant Super Kamehameha')
+ say('combo impact')
+ say('renzoku kikouha')
+ say('renzoku kikouha')
+end
+end)
+
+macro(200, "C17", function()
+ if g_game.isAttacking() then
+ say('Deadly Bomb')
+ say('Deadly Bomb')
+ say('Deadly Bomb')
+end
+end)
+
+macro(200, "GOHAN", function()
+ if g_game.isAttacking() then
+ say('Super Saiyaman Furie')
+ say('Super Saiyaman Furie')
+ say('Super Saiyaman Furie')
+end
+end)
+
+macro(200, "ANDROID21", function()
+ if g_game.isAttacking() then
+ say('Continuous Energy Bullets')
+ say('Continuous Energy Bullets')
+ say('Continuous Energy Bullets')
+end
+end)
+
+macro(200, "BUU", function()
+ if g_game.isAttacking() then
+ say('Buu Pink Ball')
+ say('Buu Pink Ball')
+ say('Buu Pink Ball')
+end
+end)
+
+macro(200, "JIREN", function()
+ if g_game.isAttacking() then
+ say('Justice Flash')
+ say('Justice Flash')
+ say('Justice Flash')
+end
+end)
+
+macro(200, "TURLES", function()
+ if g_game.isAttacking() then
+ say('Sayajin Blast')
+ say('Sayajin Blast')
+ say('Sayajin Blast')
+end
+end)
+
+
+macro(20, "- AREA -", function()
+
+say('Furie')
+
+end)
+
+macro(2000, "-MYSTIC MODE-", function()
+
+say('Mystic Mode')
+
+end) 
+
+
+macro(2000, "- ULTIMATE POWER UP-", function()
+
+say('Ultimate Power Up')
+
+end) 
+
+macro(2000, "- BODY MANIPULATION-", function()
+
+say('Body Manipulation')
+
+end)
+
+
+macro(200, "- TRAINING % -", function()
+   if manapercent() > 2 then
+      say("power down")
+   end
+end)
+
+
+macro(20000, "- SUPER SPEED -", function()
+
+say('Super Speed "DOUGLAS  S3')
+
+end)
+
+
+local distance = 5
+local m = macro(1000, "BUGMAP", function() end)
+local executeDodge = function(s, d)
+    local pos = pos()
+    if s == 0 then
+        pos.y = pos.y - d
+    elseif s == 1 then
+        pos.x = pos.x + d
+    elseif s == 2 then
+        pos.y = pos.y + d
+    else
+        pos.x = pos.x - d
+    end
+    local tile = g_map.getTile(pos)
+    if tile then
+        g_game.use(tile:getTopUseThing())
+    end
+end
+onKeyPress(function(keys)
+    if not modules.game_walking.wsadWalking then return end
+    if m.isOff() then return end
+    local s = nil
+    if keys == "W" then
+        s = 0
+    elseif keys == "D" then
+        s = 1
+    elseif keys == "S" then
+        s = 2
+    elseif keys == "A" then
+        s = 3
+    end
+    if s then
+        executeDodge(s, distance)
+    end
+end)
+
+
+macro(1, "- ATACK PK-", function()
+
+for _,pla in ipairs(getSpectators(posz())) do
+
+attacked = g_game.getAttackingCreature()
+
+if not attacked or attacked:isMonster() or attacked:isPlayer() and pla:getHealthPercent() < attacked:getHealthPercent()*0.6 then
+if pla:isPlayer() and pla:getEmblem() ~= 1 and pla:getSkull() <= 3 then 
+g_game.attack(pla)
+end
+end
+
+end
+
+delay(100)
+
+end)
+
+
+Target = {
+
+KeyCancel = 'Escape',
+cancelTime = 0,
+
+cancel = function()
+
+Target.Id = nil
+Target.get = nil
+Target.cancelTime = now + 100
+g_game.cancelAttack()
+
+end
+
+}
+
+hotkey(Target.KeyCancel, function()
+
+Target.cancel()
+
+end)
+
+
+macro(500, '- ATACK TARGET -', function()
+
+if Target.cancelTime >= now then return end
+
+if g_game.isAttacking() then
+
+Target.Id = g_game.getAttackingCreature():getId()
+
+elseif Target.Id then
+
+Target.get = getCreatureById(Target.Id)
+
+if Target.get then
+g_game.attack(Target.get)
+sense = ''..g_game.getAttackingCreature():getName()..''
+end
+
+end
+
+end)
+
+
+macro(50, '- ATTACK FOLLOW -', function()
+
+if not modules.corelib.g_keyboard.areKeysPressed('Up') and not modules.corelib.g_keyboard.areKeysPressed('Down') and not modules.corelib.g_keyboard.areKeysPressed('Left') and not modules.corelib.g_keyboard.areKeysPressed('Right') then
+g_game.setChaseMode(1);
+g_game.setFightMode(1);
+end
+
+delay(100)
+
+end)
+
+
+local followattk = 0
+
+hotkey("Pageup", function()
+
+if not modules.corelib.g_keyboard.areKeysPressed('Up') and not modules.corelib.g_keyboard.areKeysPressed('Down') and not modules.corelib.g_keyboard.areKeysPressed('Left') and not modules.corelib.g_keyboard.areKeysPressed('Right') then
+if followattk == 0 then
+followattk = 1
+g_game.setChaseMode(1);
+g_game.setFightMode(1);
+return
+end
+end
+
+if followattk == 1 then
+followattk = 0
+g_game.setChaseMode(0);
+g_game.setFightMode(1);
+return
+end
+
+end)
+
+
+macro(1, 'N ERRA CANUDO', function()
+ if not g_game.isAttacking() then return end
+ local tt = g_game.getAttackingCreature()
+ local tx = tt:getPosition().x
+ local ty = tt:getPosition().y
+ local dir = player:getDirection()
+ local tdx = math.abs(tx-pos().x)
+ local tdy = math.abs(ty-pos().y)
+ if (tdy >= 2 and tdx >= 2) or tdx > 7 or tdy > 7 then return end 
+ if tdy >= tdx then
+  if ty > pos().y then
+   if dir ~= 2 then
+    turn(2)
+   end
+  else
+   if dir ~= 0 then
+    turn(0)
+   end
+  end
+ else
+  if tx > pos().x then
+   if dir ~= 1 then
+    turn(1)
+   end
+  else
+   if dir ~= 3 then
+    turn(3)
+   end
+  end
+ end
+end)
+
+
+local castBelowHp = 30
+local deactiveBelowMana = 90
+macro(98, "MYSTIC DEFENSE", function()
+if (hppercent() <= castBelowHp and manapercent() >= deactiveBelowMana and not hasManaShield()) then
+say('Mystic Defense')
+end
+if (manapercent() <= deactiveBelowMana and hppercent() >= castBelowHp and hasManaShield()) then
+say('Mystic Kai ')
+end
+end)
+
+
+local hpPercent = 99 macro(50, "BIG REGENERATION",  function()   if (hppercent() <= hpPercent) then   say(storage.HealText) end end) addTextEdit("HealText", storage.HealText or "Majin Regeneration", function(widget, text)  storage.HealText = text end)
+
+
+local distance = 3
+local amountOfMonsters = 2
+macro(1000, "Anti Red",  function()
+    local isSafe = true
+    local specAmount = 0
+    if not g_game.isAttacking() then
+        return
+    end
+for i,mob in ipairs(getSpectators()) do
+        if (getDistanceBetween(player:getPosition(), mob:getPosition()) <= distance and mob:isMonster()) then
+            specAmount = specAmount + 1
+        end
+        if (mob:isPlayer() and (player:getName() ~= mob:getName()) and g_game.isAttacking (storage.Spell1)) then
+            isSafe = false
+        end
+    end
+    if (specAmount >= amountOfMonsters) and isSafe then
+        say(storage.Spell2, 1600)
+    else
+        say(storage.Spell1, 1600)
+    end
+end)
+addTextEdit("Spell1", storage.Spell1 or "Single target", function(widget, text) 
+storage.Spell1 = text
+end)
+addTextEdit("Spell2", storage.Spell2 or "Multi target", function(widget, text) 
+storage.Spell2 = text
+end)
+
+
+UI.Separator() 
+UI.Button("Zoom In map [ctrl + =]", function() zoomIn() end) 
+UI.Button("Zoom Out map [ctrl + -]", function() zoomOut() end)
+
+macro(1, "CHICLETE", function()
+
+for _,pla in ipairs(getSpectators(posz())) do
+
+attacked = g_game.getAttackingCreature()
+
+if not attacked or attacked:isMonster() or attacked:isPlayer() and pla:getHealthPercent() < attacked:getHealthPercent()*0.6 then
+if pla:isPlayer() and pla:getEmblem() ~= 1 and pla:getSkull() <= 3 then 
+g_game.attack(pla)
+end
+end
+
+end
+
+delay(100)
+
+end)
+
+macro(1000,"Auto Accept Party",function() 
+  if player:getShield() > 2 then return end -- already in a party
+  for s, spec in pairs(getSpectators(false)) do
+    if spec:getShield() == 1 then
+      g_game.partyJoin(spec:getId())
+      delay(1000)
+    end
+  end
+end)
