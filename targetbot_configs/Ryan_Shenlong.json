@@ -1,0 +1,50 @@
+{
+  "looting": {
+    "items": [
+
+    ],
+    "maxDanger": 10,
+    "minCapacity": 100,
+    "containers": [
+
+    ],
+    "everyItem": false
+  },
+  "targeting": [
+    {
+      "useSpellAttack": true,
+      "useRuneAttack": false,
+      "minMana": 0,
+      "avoidAttacks": false,
+      "groupAttackTargets": 1,
+      "groupAttackSpell": "Furie",
+      "danger": 1,
+      "runeAttackDelay": 200,
+      "lureCavebot": false,
+      "dontLoot": false,
+      "useGroupAttackRune": false,
+      "groupRuneAttackRadius": 1,
+      "groupAttackIgnorePlayers": false,
+      "maxDistance": 10,
+      "groupAttackIgnoreParty": false,
+      "lureCount": 1,
+      "useGroupAttack": true,
+      "groupRuneAttackTargets": 1,
+      "attackSpell": "Super hell granade",
+      "groupAttackRune": 0,
+      "groupAttackRadius": 1,
+      "keepDistanceRange": 1,
+      "groupRuneAttackDelay": 200,
+      "priority": 1,
+      "attackRune": 0,
+      "groupAttackDelay": 200,
+      "minManaGroup": 0,
+      "lure": false,
+      "keepDistance": false,
+      "attackSpellDelay": 200,
+      "chase": true,
+      "name": "Ryan Shenlong",
+      "regex": "^ryan shenlong$"
+    }
+  ]
+}
